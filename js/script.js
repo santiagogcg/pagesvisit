@@ -1,25 +1,39 @@
+const countElement = document.getElementById('contadorVisitas')
+const resetButton = document.getElementById('btnReestablecer')
 
-localStorage.setItem('contador',cont);
+const countKey = 'count'
 
-let cont=0;
+let countValue = getCountValueFromLocalStorage()
 
+incrementCount()
 
-const contador=document.getElementById('contadorVisitas')
+resetButton.addEventListener('click', handleReset)
 
-const reestablecer=document.getElementById('btnReestablecer');
+function handleReset() {
+	countValue = 0
+	update()
+}
 
+function incrementCount() {
+	countValue++
+	update()
+}
 
+function update() {
+	render()
+	saveCountValueToLocalStorage()
+}
 
-location.reload.addEventListener('click',()=>{
-    cont++
-    contador.innerText=cont;
-    
-})
+function render() {
+	countElement.textContent = countValue
+}
 
+function getCountValueFromLocalStorage() {
+	const value = +localStorage.getItem(countKey)
 
+	return value ? value : 0
+}
 
-
-
-reestablecer.addEventListener('click',()=>{
-    contador.innerText=0;
-})
+function saveCountValueToLocalStorage() {
+	localStorage.setItem(countKey, countValue)
+}
